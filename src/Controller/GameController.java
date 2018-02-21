@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Difficulty;
+import Model.GameMagic;
 import Model.TetrisGame;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -36,8 +37,8 @@ public class GameController {
     }
 
     private void startNewGame() {
-        game = new TetrisGame(gc, pgc, Difficulty.Medium);
 
+        game = new TetrisGame(new GameMagic(gc, pgc), Difficulty.Medium);
     }
 
     @FXML
@@ -49,6 +50,8 @@ public class GameController {
             case RIGHT:
                 game.MoveRight();
                 break;
+            case DOWN:
+                game.MoveDown();
             case UP:
                 game.Rotate();
                 break;
@@ -63,7 +66,6 @@ public class GameController {
 
     public void handleMouseClick(MouseEvent mouseEvent) {
         System.out.println("Stuff");
-        gc = canvas.getGraphicsContext2D();
         canvas.requestFocus();
     }
 }
