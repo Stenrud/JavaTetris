@@ -1,15 +1,15 @@
 package Model.Tiles;
 
-public class LTile extends Tile {
+public class LRTile extends Tile {
 
-    public LTile() {
+    public LRTile() {
 
         byte i = GetColor();
 
         shape = new byte[][]{
                 {0, i, 0},
                 {0, i, 0},
-                {0, i, i}
+                {i, i, 0}
         };
     }
 }

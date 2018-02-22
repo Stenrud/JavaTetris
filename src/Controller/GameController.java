@@ -2,6 +2,8 @@ package Controller;
 
 import Model.Difficulty;
 import Model.GameMagic;
+import Model.Interfaces.BecauseIDontKnowHowToUseEvents;
+import Model.TetrisBoard;
 import Model.TetrisGame;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -11,7 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 
-public class GameController {
+public class GameController implements BecauseIDontKnowHowToUseEvents{
 
     @FXML
     public Canvas canvas;
@@ -24,6 +26,7 @@ public class GameController {
 
     TetrisGame game;
     private GraphicsContext gc, pgc;
+    private boolean gameIsRunning;
 
     public GameController(){
 
@@ -38,11 +41,13 @@ public class GameController {
 
     private void startNewGame() {
 
-        game = new TetrisGame(new GameMagic(gc, pgc), Difficulty.Medium);
+        game = new TetrisGame(new TetrisBoard(new GameMagic(gc, pgc)), this);
+        gameIsRunning = true;
     }
 
     @FXML
     public void handleKeyPressed(KeyEvent keyEvent) {
+        if(gameIsRunning)
         switch (keyEvent.getCode()){
             case LEFT:
                 game.MoveLeft();
@@ -67,5 +72,10 @@ public class GameController {
     public void handleMouseClick(MouseEvent mouseEvent) {
         System.out.println("Stuff");
         canvas.requestFocus();
+    }
+
+    @Override
+    public void gameOver() {
+        gameIsRunning = false;
     }
 }

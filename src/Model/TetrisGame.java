@@ -1,78 +1,81 @@
 package Model;
 
+import Controller.GameController;
+import Model.Interfaces.BecauseIDontKnowHowToUseEvents;
 import Model.Tiles.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class TetrisGame {
 
 
+    private final TetrisBoard board;
+    private final BecauseIDontKnowHowToUseEvents controller;
+    private Tile mainTile;
+    private Tile nextTile;
 
-    private final GameMagic magic;
-
-    private Tile tile;
-
-    private final Difficulty difficulty;
-    private byte[][] board;
     private Timeline timeline;
     private static Point2D left = new Point2D(-1, 0);
     private static Point2D right = new Point2D(1, 0);
     private static Point2D down = new Point2D(0, 1);
+    private static Point2D spawn = new Point2D(0, 0);
 
 
 
 
-    public TetrisGame(GameMagic magic, Difficulty difficulty){
-
-        this.magic = magic;
-        this.difficulty = difficulty;
-
-        board = new byte[magic.GetWidth()][magic.GetWidth() * 2];
-        for(int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                board[i][j] = 0;
-            }
-        }
-
+    public TetrisGame(TetrisBoard board, BecauseIDontKnowHowToUseEvents controller) {
+        this.board = board;
+        this.controller = controller;
         start();
     }
 
     public void start() {
-        tile = NextTile();
+        mainTile = getRandomTile();
+        mainTile.position = board.getStartPosition(mainTile);
+        nextTile = getRandomTile();
+        board.previewTile(nextTile);
+
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), this::moveTile));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 
     private void moveTile(ActionEvent actionEvent) {
-        if(CheckMove(down))
+        if(board.CheckMove(mainTile, down))
             MoveTile(down);
         else{
             onTiileHitBottom();
         }
 
-        Render();
+        board.RenderWIthTile(mainTile);
     }
 
     private void onTiileHitBottom() {
-        FixTile();
-        tile = NextTile();
+        board.FixTile(mainTile);
+        board.checkForCompleteRows(0, board.getHeight());
+        NextTile();
+        if(!board.CheckMove(mainTile, spawn)){
+            gameOver();
+        }
     }
 
-    private Tile NextTile() {
-
-        Tile tempTile = getTile();
-
-        tempTile.position = new Point2D(3, 0);
-         return tempTile;
+    private void gameOver() {
+        timeline.stop();
+        controller.gameOver();
     }
 
-    private Tile getTile() {
-        int i = (int)(Math.random()*5);
+    private void NextTile() {
+        mainTile = nextTile;
+        mainTile.position = board.getStartPosition(mainTile);
+        nextTile = getRandomTile();
+        board.previewTile(nextTile);
+    }
+
+    private Tile getRandomTile() {
+        int i = (int)(Math.random()*7);
 
         switch (i){
             case 0:
@@ -85,103 +88,46 @@ public class TetrisGame {
                 return new ITile();
             case 4:
                 return new STile();
+            case 5:
+                return new SRTile();
+            case 6:
+                return new LRTile();
         }
         return null;
     }
 
-    private void FixTile() {
-
-        for(int i = 0; i < tile.getWidth(); i++){
-            for(int j = 0; j < tile.getHeight(); j++){
-
-                int x = i + (int)tile.position.getX(), y = j + (int)tile.position.getY();
-                byte newValue = tile.getPosition(i, j);
-
-                if(newValue != 0)
-                    board[x][y] = newValue;
-            }
-        }
-    }
-
-    private void DrawTile() {
-        for(int i = 0; i < tile.getWidth(); i++){
-            for(int j = 0; j < tile.getHeight(); j++){
-
-                int x = i + (int)tile.position.getX(), y = j + (int)tile.position.getY();
-
-                byte value = tile.getPosition(i, j);
-
-                if(value != 0)
-                    magic.DrawCell(x, y, ByteToColorConverter.Convert(value));
-            }
-        }
-    }
-
-    private boolean CheckMove(Point2D movement) {
-
-        Point2D position = tile.position.add(movement);
-
-        for(int i = 0; i < tile.getWidth(); i++){
-            for(int j = 0; j < tile.getHeight(); j++){
-
-                int x = i + (int)position.getX(), y = j + (int)position.getY();
-
-                byte tileValue = tile.getPosition(i, j);
-
-                if(tileValue != 0) {
-                    if (x < 0 || y < 0 || y >= magic.GetWidth() * 2 || x >= magic.GetWidth())
-                        return false;
-                    if (tileValue > 0 && board[x][y] > 0)
-                        return false;
-                }
-            }
-        }
-
-        return true;
-    }
 
     private void MoveTile(Point2D movement) {
-        tile.position = tile.position.add(movement);
+        mainTile.position = mainTile.position.add(movement);
     }
-
-    public void DrawBoard(){
-        for(int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                magic.DrawCell(i, j, ByteToColorConverter.Convert(board[i][j]));
-            }
-        }
-    }
-
-
 
 
     public void MoveLeft() {
-        if(CheckMove(left))
+        if(board.CheckMove(mainTile, left))
             MoveTile(left);
-        Render();
+        board.RenderWIthTile(mainTile);
     }
 
     public void MoveRight() {
-        if(CheckMove(right))
+        if(board.CheckMove(mainTile, right))
             MoveTile(right);
-        Render();
+        board.RenderWIthTile(mainTile);
     }
 
     public void Rotate() {
-        System.out.println("rotate");
+        if(board.checkRotation(mainTile)){
+            mainTile.rotate();
+            board.RenderWIthTile(mainTile);
+        }
     }
 
     public void MoveDown() {
-        while(CheckMove(down))
+        while(board.CheckMove(mainTile, down))
             MoveTile(down);
 
         onTiileHitBottom();
-        Render();
+        board.RenderWIthTile(mainTile);
     }
 
-    private void Render() {
-        DrawBoard();
-        DrawTile();
-        magic.drawGrid();
-    }
+
 }

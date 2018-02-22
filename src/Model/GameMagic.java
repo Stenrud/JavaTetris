@@ -22,6 +22,13 @@ public class GameMagic {
         gc.fillRect(x*cellSize, y*cellSize, cellSize, cellSize);
     }
 
+    public void DrawPreviewCell(int x, int y, Color color) {
+        pgc.setFill(color);
+        pgc.fillRect(x*cellSize, y*cellSize, cellSize, cellSize);
+        pgc.strokeRect(x*cellSize, y*cellSize, cellSize, cellSize);
+    }
+
+
     public void drawGrid(){
         for(int i = 0; i <= width; i++){
             gc.strokeLine(i * cellSize, 0, i * cellSize, 800);
@@ -32,5 +39,9 @@ public class GameMagic {
 
     public int GetWidth() {
         return width;
+    }
+
+    public void clearPreview() {
+        pgc.clearRect(0,0,150,150);
     }
 }

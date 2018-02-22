@@ -1,14 +1,14 @@
 package Model.Tiles;
 
-public class STile extends Tile {
+public class SRTile extends Tile {
 
-    public STile(){
+    public SRTile(){
 
         byte i = GetColor();
 
         shape = new byte [][]{
-                {0, i, i},
                 {i, i, 0},
+                {0, i, i},
                 {0, 0, 0}
         };
     }
