@@ -1,6 +1,5 @@
 package Model;
 
-import Controller.GameController;
 import Model.Interfaces.BecauseIDontKnowHowToUseEvents;
 import Model.Tiles.*;
 import javafx.animation.KeyFrame;
@@ -22,13 +21,15 @@ public class TetrisGame {
     private static Point2D right = new Point2D(1, 0);
     private static Point2D down = new Point2D(0, 1);
     private static Point2D spawn = new Point2D(0, 0);
-
-
+    private double multiplier;
+    private int score;
 
 
     public TetrisGame(TetrisBoard board, BecauseIDontKnowHowToUseEvents controller) {
         this.board = board;
         this.controller = controller;
+        score = 0;
+        multiplier = 1;
         start();
     }
 
@@ -55,7 +56,15 @@ public class TetrisGame {
 
     private void onTiileHitBottom() {
         board.FixTile(mainTile);
-        board.checkForCompleteRows(0, board.getHeight());
+
+        int count = board.countAndRemoveCompleteRows(0, board.getHeight());
+        if(count != 0) {
+            score += count * multiplier;
+            multiplier *= 1.0 + count/10.0;
+            System.out.println(multiplier);
+            controller.DisplayScore(score);
+            timeline.setRate(multiplier);
+        }
         NextTile();
         if(!board.CheckMove(mainTile, spawn)){
             gameOver();

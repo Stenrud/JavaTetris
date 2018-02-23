@@ -121,11 +121,15 @@ public class TetrisBoard {
         }
     }
 
-    public void checkForCompleteRows(int start, int stop) {
+    public int countAndRemoveCompleteRows(int start, int stop) {
+        int count = 0;
         for (int i = start; i < stop; i++) {
-            if(RowIsComplete(i))
+            if(RowIsComplete(i)){
+                count++;
                 RemoveRow(i);
+            }
         }
+        return count;
     }
 
     private void RemoveRow(int row) {

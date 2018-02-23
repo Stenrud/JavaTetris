@@ -8,6 +8,7 @@ import Model.TetrisGame;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -21,6 +22,8 @@ public class GameController implements BecauseIDontKnowHowToUseEvents{
     @FXML
     public Canvas previewCanvas;
 
+    @FXML
+    public Label scoreLabel;
     @FXML
     public GridPane pane;
 
@@ -77,5 +80,10 @@ public class GameController implements BecauseIDontKnowHowToUseEvents{
     @Override
     public void gameOver() {
         gameIsRunning = false;
+    }
+
+    @Override
+    public void DisplayScore(int i) {
+        scoreLabel.setText(Integer.toString(i));
     }
 }
