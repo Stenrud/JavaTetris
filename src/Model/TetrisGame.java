@@ -51,7 +51,7 @@ public class TetrisGame {
             onTiileHitBottom();
         }
 
-        board.RenderWIthTile(mainTile);
+        drawTile();
     }
 
     private void onTiileHitBottom() {
@@ -114,28 +114,46 @@ public class TetrisGame {
     public void MoveLeft() {
         if(board.CheckMove(mainTile, left))
             MoveTile(left);
+        drawTile();
+    }
+
+    private void drawTile() {
         board.RenderWIthTile(mainTile);
+
+        Point2D position = down;
+
+        while (board.CheckMove(mainTile, position)){
+            position = position.add(down);
+        }
+
+        board.RenderAimingGhost(mainTile, mainTile.position.add(position.subtract(down)));
     }
 
     public void MoveRight() {
         if(board.CheckMove(mainTile, right))
             MoveTile(right);
-        board.RenderWIthTile(mainTile);
+        drawTile();
+    }
+
+    public void MoveDown() {
+        if(board.CheckMove(mainTile, down))
+            MoveTile(down);
+        drawTile();
     }
 
     public void Rotate() {
         if(board.checkRotation(mainTile)){
             mainTile.rotate();
-            board.RenderWIthTile(mainTile);
+            drawTile();
         }
     }
 
-    public void MoveDown() {
+    public void BodySlam() {
         while(board.CheckMove(mainTile, down))
             MoveTile(down);
 
         onTiileHitBottom();
-        board.RenderWIthTile(mainTile);
+        drawTile();
     }
 
 

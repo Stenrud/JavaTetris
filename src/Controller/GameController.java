@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.Difficulty;
 import Model.GameMagic;
 import Model.Interfaces.BecauseIDontKnowHowToUseEvents;
 import Model.TetrisBoard;
@@ -12,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+
+import javax.swing.text.AbstractDocument;
 
 
 public class GameController implements BecauseIDontKnowHowToUseEvents{
@@ -60,6 +61,10 @@ public class GameController implements BecauseIDontKnowHowToUseEvents{
                 break;
             case DOWN:
                 game.MoveDown();
+                break;
+            case SPACE:
+                game.BodySlam();
+                break;
             case UP:
                 game.Rotate();
                 break;

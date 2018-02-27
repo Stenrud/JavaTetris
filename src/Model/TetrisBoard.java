@@ -2,11 +2,13 @@ package Model;
 
 import Model.Tiles.Tile;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 
 public class TetrisBoard {
 
     private final GameMagic magic;
     private byte[][] board;
+    private Color ghostColor = new Color(0.5, 0.5, 0.5, 0.3);
 
     public TetrisBoard(GameMagic magic) {
 
@@ -153,5 +155,20 @@ public class TetrisBoard {
 
     public int getHeight() {
         return magic.GetWidth()*2;
+    }
+
+    public void RenderAimingGhost(Tile tile, Point2D position) {
+
+        for(int i = 0; i < tile.getWidth(); i++){
+            for(int j = 0; j < tile.getHeight(); j++){
+
+                int x = i + (int) position.getX(), y = j + (int) position.getY();
+
+                byte value = tile.getPosition(i, j);
+
+                if(value != 0)
+                    magic.DrawCell(x, y, ghostColor);
+            }
+        }
     }
 }
