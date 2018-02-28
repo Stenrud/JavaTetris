@@ -12,8 +12,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
-import javax.swing.text.AbstractDocument;
-
 
 public class GameController implements BecauseIDontKnowHowToUseEvents{
 
