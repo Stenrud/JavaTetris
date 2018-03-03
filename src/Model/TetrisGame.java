@@ -4,6 +4,7 @@ import Model.Interfaces.BecauseIDontKnowHowToUseEvents;
 import Model.Tiles.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
@@ -42,6 +43,7 @@ public class TetrisGame {
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), this::moveTile));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+        drawTile();
     }
 
     private void moveTile(ActionEvent actionEvent) {
@@ -73,7 +75,8 @@ public class TetrisGame {
 
     private void gameOver() {
         timeline.stop();
-        controller.gameOver();
+        //controller.gameOver(score);
+        Platform.runLater(() -> controller.gameOver(score));
     }
 
     private void NextTile() {
@@ -118,6 +121,7 @@ public class TetrisGame {
     }
 
     private void drawTile() {
+
         board.RenderWIthTile(mainTile);
 
         Point2D position = down;

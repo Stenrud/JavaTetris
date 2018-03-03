@@ -1,7 +1,7 @@
 package Model.Interfaces;
 
 public interface BecauseIDontKnowHowToUseEvents {
-    void gameOver();
+    void gameOver(int score);
 
     void DisplayScore(int i);
 }

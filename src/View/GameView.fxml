@@ -3,9 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <GridPane fx:id="pane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyPressed" onKeyReleased="#handleKeyReleased" onMouseClicked="#handleMouseClick" prefHeight="800.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GameController">
   <columnConstraints>
@@ -27,6 +31,24 @@
          <GridPane.margin>
             <Insets />
          </GridPane.margin>
+         <font>
+            <Font size="96.0" />
+         </font>
       </Label>
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <Label text="Highscores :D">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="222.0" prefWidth="200.0">
+               <children>
+                  <ListView fx:id="nameListView" focusTraversable="false" prefHeight="200.0" prefWidth="150.0" />
+                  <ListView fx:id="scoreListView" focusTraversable="false" prefHeight="200.0" prefWidth="50.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </GridPane>

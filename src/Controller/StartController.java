@@ -20,7 +20,6 @@ public class StartController {
             Parent root = FXMLLoader.load(getClass().getResource("../View/GameView.fxml"));
             Scene scene = new Scene(root, 600, 800);
             stage.setScene(scene);
-
         }
     }
 
