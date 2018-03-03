@@ -24,3 +24,4 @@ out/*
 .idea/inspectionProfiles .idea/misc.xml .idea/modules.xml .idea/uiDesigner.xml .idea/vcs.xml .idea/workspace.xml
 .idea
 Tetris.iml
+src/META-INF/
