@@ -17,7 +17,7 @@ public class StartController {
 
         if(actionEvent.getSource() == startButton){
             Stage stage = (Stage) startButton.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("../View/GameView.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/View/GameView.fxml"));
             Scene scene = new Scene(root, 600, 800);
             stage.setScene(scene);
         }

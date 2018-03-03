@@ -2,6 +2,7 @@ package Model;
 
 import Controller.GameController;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Camera;
 import javafx.scene.Parent;
@@ -14,7 +15,8 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
 
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/StartView.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/View/StartView.fxml"));
         loader.getController();
         Parent root = loader.load();
 
